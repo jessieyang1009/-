@@ -1,0 +1,18 @@
+#install.packages("tidyquant")
+library(jsonlite)
+library(quantmod)
+library(tidyquant)
+token="5bef34390dede3ce112a0edac635521d429c327b"
+api_url = paste0("http://140.124.93.179:5888/v1/history/stock?token=",token,"&symbol_id=2412&data_column=STK.date,STK.o,STK.h,STK.l,STK.c,STK.v&start_date=2018-05-01&end_date=2018-05-20")
+STK = fromJSON(api_url)
+STK = as.data.frame(STK)
+View(STK)
+timevec = strptime( STK[,1], "%Y-%m-%d", tz=Sys.timezone())
+timevec = as.POSIXct(timevec)
+STK=STK[,2:6]
+STK = xts(cbind(as.numeric(STK[,1]),as.numeric(STK[,2])
+                ,as.numeric(STK[,3]),as.numeric(STK[,4])
+                ,as.numeric(STK[,5])), timevec)
+colnames(STK) <- c("Open","High","Low","Close","Volume")
+View(STK)
+chartSeries(STK)
