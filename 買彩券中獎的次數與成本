@@ -1,0 +1,10 @@
+#設一張彩券50元
+myNo=c(37,20,48,1,13,5)
+x=sample(1:49,6)
+count=1
+cost=0
+while (sum(sort(x)==sort(myNo))!=6) {
+  count=count+1
+  x=sample(1:49,6)
+}
+cost=count*50
